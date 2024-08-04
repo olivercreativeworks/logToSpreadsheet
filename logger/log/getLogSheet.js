@@ -1,8 +1,10 @@
-function getLog(){
+function getLogSheet(){
   const props = PropertiesService.getScriptProperties()
   const spreadsheetIdSymbol =  'spreadsheet'
   const sheetIdSymbol = 'sheet'
-  const log = getLogSheet()
+  const spreadsheet = getSpreadsheet()
+  const sheetId = JSON.parse(props.getProperty(sheetIdSymbol))
+  const log = spreadsheet.getSheets().find(sheet => sheet.getSheetId() === sheetId) || createLoggingSheet(spreadsheet)
   return {
     append: append
   }
@@ -14,11 +16,6 @@ function getLog(){
       .setValues(messages)
   }
 
-  function getLogSheet(){
-    const spreadsheet = getSpreadsheet()
-    const sheetId = JSON.parse(props.getProperty(sheetIdSymbol))
-    return spreadsheet.getSheets().find(sheet => sheet.getSheetId() === sheetId) || createLoggingSheet(spreadsheet)
-  }   
   function getSpreadsheet(){
     const id = props.getProperty(spreadsheetIdSymbol)
     const sheet = id ? SpreadsheetApp.openById(id) : createNewSpreadsheet()
@@ -37,4 +34,4 @@ function getLog(){
     props.setProperty(sheetIdSymbol, JSON.stringify(sheet.getSheetId()))
     return sheet
   }
-}
+}   
