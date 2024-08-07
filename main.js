@@ -11,6 +11,7 @@
  * logger.write('It is a good day!')
  * logger.write('Bye bye!')
  * // call commit to actually append the messages to the log
+ * const logSheet = SpreadsheetApp.openById(YOUR-SPREADSHEET-ID).getSheetByName(YOUR-LOG-SHEET-NAME)
  * logger.commit() 
  * ``` 
  */
@@ -22,7 +23,7 @@ function createLogger(){
   }
 
   /** 
-   * The first method you should call.
+   * The first method you should call after creating the logger. You can write any number of messages to the log before calling commit.
    * @param {string} message 
    */
   function write(message){
@@ -30,7 +31,7 @@ function createLogger(){
   }
   /** 
    * Call this after writing some messages to the staging area 
-   * @param {SpreadsheetApp.Sheet} logSheet
+   * @param {SpreadsheetApp.Sheet} logSheet The first column of the log sheet should be for timestamps, the second column is for a message.
    */
   function commitToLog(logSheet){
     SpreadsheetLog_.makeLog(logSheet).append(stagingArea.getMessagesOut())
