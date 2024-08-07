@@ -1,4 +1,4 @@
-function getStagingArea(){
+function getStagingArea_(){
   let stagedMessages = []
   return {
     stageMessage: stageMessage,

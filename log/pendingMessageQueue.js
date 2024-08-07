@@ -1,10 +1,10 @@
 /**
  * Returns a queue that can add messages to or return stored messages from the properties service. The queue makes use of **user lock to manage concurrent reads and writes**.
  */
-function getPendingMessagesQueue(){
+function getPendingMessagesQueue_(){
   const props = PropertiesService.getScriptProperties()
   const pendingMessageSymbol = 'messageKey'
-  const lockManager = getLockManager()
+  const lockManager = getLockManager_()
   return {
     getMessagesOut: getMessagesOutOfQueue,
     addMessages: addToQueue,

@@ -4,7 +4,7 @@
  */
 
 /** @type {Log} */
-class SpreadsheetLog{
+class SpreadsheetLog_{
   /** 
    * @private 
    * @param {SpreadsheetApp.Sheet} logSheet
@@ -13,7 +13,7 @@ class SpreadsheetLog{
     /** @private */
     this.logSheet = logSheet
     /** @private */
-    this.lockManager = getLockManager()
+    this.lockManager = getLockManager_()
   }
 
   /** 
@@ -22,8 +22,8 @@ class SpreadsheetLog{
    * @return {Log}
    */
   static makeLog(logSheet){
-    SpreadsheetLog.registerLogSheet(logSheet)
-    return new SpreadsheetLog(logSheet)
+    SpreadsheetLog_.registerLogSheet(logSheet)
+    return new SpreadsheetLog_(logSheet)
   }
 
   /** 
@@ -52,7 +52,7 @@ class SpreadsheetLog{
    * @param {LogMessage[]} 
    */
   append(messages){
-    if(!SpreadsheetLog.messagesAreValid(messages)) {
+    if(!SpreadsheetLog_.messagesAreValid(messages)) {
       return console.warn(`Messages are invalid. Messages must be an array of string tuples: [string, string][].\n Please correct your messages:\n${JSON.stringify(messages)}`)
     }
     this.lockManager.handleScriptLock( 
@@ -89,22 +89,22 @@ class SpreadsheetLog{
    */
   addToPendingMessageQueue(messages){
     console.log('Saving messages to pending message queue')
-    SpreadsheetLog.pendingMessageQueue.addMessages(messages)
-    SpreadsheetLog.scheduler.scheduleJob({jobName:`${SpreadsheetLog.name}.${SpreadsheetLog.appendPendingMessages.name}`, minutesFromNow:1})
+    SpreadsheetLog_.pendingMessageQueue.addMessages(messages)
+    SpreadsheetLog_.scheduler.scheduleJob({jobName:`${SpreadsheetLog_.name}.${SpreadsheetLog_.appendPendingMessages.name}`, minutesFromNow:1})
   }
 
   /**
    * @private
    */
   static get pendingMessageQueue(){
-    return getPendingMessagesQueue()
+    return getPendingMessagesQueue_()
   }
 
   /**
    * @private
    */
   static get scheduler(){
-    return getJobScheduler()
+    return getJobScheduler_()
   }
 
   /**
@@ -113,8 +113,8 @@ class SpreadsheetLog{
    * @param {string} e.triggerUid The unique id for the trigger
    */
   static appendPendingMessages({triggerUid}){
-    SpreadsheetLog.scheduler.deleteScheduledJob(triggerUid)
-    SpreadsheetLog.getRegisteredLog().append(SpreadsheetLog.pendingMessageQueue.getMessagesOut())
+    SpreadsheetLog_.scheduler.deleteScheduledJob(triggerUid)
+    SpreadsheetLog_.getRegisteredLog().append(SpreadsheetLog_.pendingMessageQueue.getMessagesOut())
   }
 
   /**
@@ -126,6 +126,6 @@ class SpreadsheetLog{
     const logSheet =  SpreadsheetApp.openById(props.spreadsheetId)
       .getSheets()
       .filter(sheet => sheet.getSheetId() == props.sheetId)[0] // use loose equality so you get a match when the sheetId is 0.
-    return new SpreadsheetLog(logSheet)
+    return new SpreadsheetLog_(logSheet)
   }
 }

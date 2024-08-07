@@ -15,7 +15,7 @@
  * ``` 
  */
 function createLogger(){
-  const stagingArea = getStagingArea()
+  const stagingArea = getStagingArea_()
   return {
     write: write,
     commit: commitToLog,
@@ -33,6 +33,6 @@ function createLogger(){
    * @param {SpreadsheetApp.Sheet} logSheet
    */
   function commitToLog(logSheet){
-    SpreadsheetLog.makeLog(logSheet).append(stagingArea.getMessagesOut())
+    SpreadsheetLog_.makeLog(logSheet).append(stagingArea.getMessagesOut())
   }
 }

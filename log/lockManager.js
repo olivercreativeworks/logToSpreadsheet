@@ -1,7 +1,7 @@
 /**
  * Manages creating and releasing locks to manage concurrent requests.
  */
-function getLockManager(){
+function getLockManager_(){
   return {
     handleScriptLock: handleScriptLock,
     handleUserLock: handleUserLock
