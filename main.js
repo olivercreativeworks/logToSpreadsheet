@@ -14,6 +14,7 @@
  * const logSheet = SpreadsheetApp.openById(YOUR-SPREADSHEET-ID).getSheetByName(YOUR-LOG-SHEET-NAME)
  * logger.commit() 
  * ``` 
+ * @return {Record<'write', (message:string) => void> & Record<'commitToLog', (logSheet:SpreadsheetApp.Sheet, lock:LockService.Lock) => void>}
  */
 function createLogger(){
   const stagingArea = getStagingArea_()
