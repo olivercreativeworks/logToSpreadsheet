@@ -4,15 +4,27 @@
 function getLockManager_(){
   return {
     handleScriptLock: handleScriptLock,
-    handleUserLock: handleUserLock
+    handleUserLock: handleUserLock,
+    handleUserProvidedLock: handleUserProvidedLock
   }
+
+  /**
+   * @template A, B
+   * @param {LockService.Lock} lock
+   * @param {() => A} onSuccess
+   * @param {() => B} onFailure
+   */
+  function handleUserProvidedLock(lock, onSuccess, onFailure){
+    return handleLock(lock, onSuccess, onFailure)
+  }
+
   /**
    * @template A, B
    * @param {() => A} onSuccess
    * @param {() => B} onFailure
    */
   function handleScriptLock(onSuccess, onFailure){
-    return handleLock("script", onSuccess, onFailure)
+    return handleLock(LockService.getScriptLock(), onSuccess, onFailure)
   }
 
   /** 
@@ -21,35 +33,30 @@ function getLockManager_(){
    * @return {A | void}
    */
   function handleUserLock(onSuccess){
-    return handleLock("user", onSuccess)
+    return handleLock(LockService.getUserLock(), onSuccess)
   }
 
   /**
    * @template A, B
-   * @param {"user" | "script"} lockType
+   * @param {LockService.Lock} lock
    * @param {() => A} onSuccess
    * @param {() => B} onFailure
    * @param {number} timeInMilliseconds
    * @param {number} retries
    * @return {A | B}
    */
-  function handleLock(lockType, onSuccess, onFailure = () => console.log('Took too long to acquire lock'), timeInMilliseconds = 1000 * 60 * 3) {
-    /** @type {Record<lockType, () => LockService.Lock>} */
-    const locks = {
-      user: LockService.getUserLock,
-      script:LockService.getScriptLock
-    }
-    const lock = locks[lockType]()
-    console.log(`Attempting to acquire lock: ${lockType}`)
+  function handleLock(lock, onSuccess, onFailure = () => console.log('Took too long to acquire lock'), timeInMilliseconds = 1000 * 60 * 3) {
+
+    console.log(`Attempting to acquire lock`)
     const success = lock.tryLock(timeInMilliseconds);
     if(!success) return onFailure()
     
-    console.log(`Acquired lock: ${lockType}`)
+    console.log(`Acquired lock`)
     try {
       return onSuccess();
     } finally {
       lock.releaseLock();
-      console.log(`Released lock: ${lockType}`)
+      console.log(`Released lock`)
     }
   }
 }

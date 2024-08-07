@@ -32,8 +32,9 @@ function createLogger(){
   /** 
    * Call this after writing some messages to the staging area 
    * @param {SpreadsheetApp.Sheet} logSheet The first column of the log sheet should be for timestamps, the second column is for a message.
+   * @param {LockService.Lock} lock A script lock that will be used to manager concurrent writes to the sheet.
    */
-  function commitToLog(logSheet){
-    SpreadsheetLog_.makeLog(logSheet).append(stagingArea.getMessagesOut())
+  function commitToLog(logSheet, lock){
+    SpreadsheetLog_.makeSpreadsheetLog(logSheet, lock).append(stagingArea.getMessagesOut())
   }
 }

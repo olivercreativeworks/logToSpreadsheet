@@ -8,22 +8,25 @@ class SpreadsheetLog_{
   /** 
    * @private 
    * @param {SpreadsheetApp.Sheet} logSheet
+   * @param {LockService.Lock} userProvidedLock
    */
-  constructor(logSheet){
+  constructor(logSheet, userProvidedLock){
     /** @private */
     this.logSheet = logSheet
     /** @private */
     this.lockManager = getLockManager_()
+    this.userProvidedLock = userProvidedLock
   }
 
   /** 
    * Returns a spreadsheet log that you can write messages to. Use the append method to add messages to the log. The log uses a **script lock to manage concurrent writes to the spreadsheet**.
    * @param {SpreadsheetApp.Sheet} logSheet
+   * @param {LockService.Lock} lock
    * @return {Log}
    */
-  static makeLog(logSheet){
+  static makeSpreadsheetLog(logSheet, lock){
     SpreadsheetLog_.registerLogSheet(logSheet)
-    return new SpreadsheetLog_(logSheet)
+    return new SpreadsheetLog_(logSheet, lock)
   }
 
   /** 
@@ -55,7 +58,8 @@ class SpreadsheetLog_{
     if(!SpreadsheetLog_.messagesAreValid(messages)) {
       return console.warn(`Messages are invalid. Messages must be an array of string tuples: [string, string][].\n Please correct your messages:\n${JSON.stringify(messages)}`)
     }
-    this.lockManager.handleScriptLock( 
+    this.lockManager.handleUserProvidedLock( 
+      this.userProvidedLock,
       () => this.appendToLog(messages), 
       () => this.addToPendingMessageQueue(messages),
     )
