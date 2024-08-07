@@ -36,24 +36,3 @@ function createLogger(){
     SpreadsheetLog.makeLog(logSheet).append(stagingArea.getMessagesOut())
   }
 }
-
-function tryingThisOut(){
-  const sheet =SpreadsheetApp.openById('15J2GwXI--9o146ey9GczHetqimDfzId9MYc7aYzCQEY')
-    .getSheetByName('Sheet1')
-  const log = createLogger()
-  log.write('Grass')
-  log.write('Flying')
-  log.write('Water')
-  log.write('Fire')
-  log.commit(sheet)
-  const log2 = createLogger()
-  log2.write('Thurs')
-  log2.write('Thurs')
-  log2.write('Thurs')
-  log2.write('Thurs')
-  log.write('Hello')
-  log2.commit(sheet)
-  log.commit(sheet)
-  log.commit(sheet)
-  log2.write('Friday')
-}
