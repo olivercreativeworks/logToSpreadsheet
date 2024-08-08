@@ -12,8 +12,10 @@ const logger = SpreadsheetLogger
 logger.write('Hello world')
 logger.write('It is a good day!')
 logger.write('Bye bye!')
- 
+```
+
 #### Commit to the log
+```javascript 
 // call commit to actually append the messages to the log
 const logSheet = SpreadsheetApp.openById(YOUR-SPREADSHEET-ID).getSheetByName(YOUR-LOG-SHEET-NAME)
 const lock = LockService.getScriptLock()
