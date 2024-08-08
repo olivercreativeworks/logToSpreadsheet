@@ -18,6 +18,5 @@ logger.write('Bye bye!')
 ```javascript 
 // call commit to actually append the messages to the log
 const logSheet = SpreadsheetApp.openById(YOUR-SPREADSHEET-ID).getSheetByName(YOUR-LOG-SHEET-NAME)
-const lock = LockService.getScriptLock()
 logger.commitToLog(logSheet, lock) 
 ``` 
