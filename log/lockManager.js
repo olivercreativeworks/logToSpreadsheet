@@ -5,6 +5,17 @@ function getLockManager_(){
   return {
     handleScriptLock: handleScriptLock,
     handleUserLock: handleUserLock,
+    handleUserProvidedLock: handleUserProvidedLock
+  }
+
+  /**
+   * @template A, B
+   * @param {LockService.Lock} lock
+   * @param {() => A} onSuccess
+   * @param {() => B} onFailure
+   */
+  function handleUserProvidedLock(lock, onSuccess, onFailure){
+    return handleLock(lock, onSuccess, onFailure)
   }
 
   /**
@@ -33,7 +44,7 @@ function getLockManager_(){
    * @param {number} waitTimeInMilliseconds
    * @return {A | B}
    */
-  function handleLock(lock, onSuccess, onFailure = () => console.log('Took too long to acquire lock'), waitTimeInMilliseconds = 1000 * 60 * 1) {
+  function handleLock(lock, onSuccess, onFailure = () => console.log('Took too long to acquire lock'), waitTimeInMilliseconds = 1) {
 
     console.log(`Attempting to acquire lock`)
     const success = lock.tryLock(waitTimeInMilliseconds);
