@@ -1,8 +1,8 @@
-#spreadsheetLogger
+# spreadsheetLogger
 This script writes log messages to a spreadsheet. It is meant for logging messages from doPost requests.
 
 
-##How to use
+## How to use
 Copy the code into your project.
 
 #### Write to the log
