@@ -55,5 +55,5 @@ The name of your global function should be passed as an argument to this script'
 
 This script will handle creating and removing a clock trigger that will schedule your global function to run whenever there are any pending messages.
 
-**Please note:**the log you pass as an argument to ```commitPendingMessagesToLog``` should match the log passed into the ```commitToLog``` method.
+**Please note:** the log you pass as an argument to ```commitPendingMessagesToLog``` should match the log passed into the ```commitToLog``` method.
 
