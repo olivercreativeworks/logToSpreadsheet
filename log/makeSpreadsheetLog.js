@@ -73,13 +73,16 @@ class SpreadsheetLog_{
   }
 
   /**
-   * @private 
+   * @private
+   * 
+   * Call this method using a lock.
    * @param {LogMessage[]} messages 
    */
   appendToLog(messages){
     console.log('Attempting to append to log')
     this.logSheet.getRange(this.logSheet.getLastRow() + 1, 1, messages.length, 2)
       .setValues(messages)
+    SpreadsheetApp.flush()
   }
 
   /** 
