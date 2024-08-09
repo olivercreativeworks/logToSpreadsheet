@@ -22,18 +22,15 @@ class SpreadsheetLog_{
     this.uniqueId = SpreadsheetLog_.createUniqueId(logSheet)
   }
 
-  /** 
-   * Returns a spreadsheet log that you can write messages to. Use the append method to add messages to the log. The log uses a **script lock to manage concurrent writes to the spreadsheet**.
-   * @param {SpreadsheetApp.Sheet} logSheet
-   * @return {Log}
+  /**
+   * @param {SpreadsheetApp.Sheet} sheet
    */
-  static makeSpreadsheetLog(logSheet){
-    SpreadsheetLog_.registerLogSheet(logSheet)
-    return new SpreadsheetLog_(logSheet)
+  static createUniqueId(sheet){
+    return `${sheet.getSheetId()}${sheet.getParent().getId()}`
   }
 
   /** 
-   * @private
+   * Returns a spreadsheet log that you can write messages to. Use the append method to add messages to the log. The log uses a **script lock to manage concurrent writes to the spreadsheet**.
    * @param {SpreadsheetApp.Sheet} logSheet
    * @param {LockService.Lock} userProvidedLock
    * @param {string} processPendingMessagesFnName
