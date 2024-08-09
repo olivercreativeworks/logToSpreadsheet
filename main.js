@@ -97,7 +97,7 @@ function commitToLog(logSheet, userProvidedLock, processPendingMessages){
 }
 
 /**
- * Appends messages from the pending message queue onto the spreadsheet log. To get pending messages, pass in the same sheet you used in the commitToLog function.
+ * Appends messages from the pending message queue onto the spreadsheet log. To get pending messages, pass in the same sheet you used in the ```commitToLog``` function.
  * 
  * This method will write as many pending messages as possible to the log and set up a trigger to write additional messages if need be.
  * 
@@ -105,7 +105,7 @@ function commitToLog(logSheet, userProvidedLock, processPendingMessages){
  * 
  * @param {object} e Clock trigger event object
  * @param {string} e.triggerUid The unique id for the trigger
- * @param {SpreadsheetApp.Sheet} logSheet Should match the sheet you used in commitToLog. Pending messages will be appended to the end of the sheet. 
+ * @param {SpreadsheetApp.Sheet} logSheet Should match the sheet you used in ```commitToLog```. Pending messages will be appended to the end of the sheet. 
  * @param {LockService.Lock} userProvidedLock A lock that will be used to prevent concurrent writes to the sheet.
  * @param {string} processPendingMessages The name of the function that will be responsible for appending pending messages to the log. The function should call this method inside it's body.
  */
