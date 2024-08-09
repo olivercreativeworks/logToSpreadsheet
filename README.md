@@ -3,7 +3,10 @@ This script writes log messages to a spreadsheet. It is meant for logging messag
 
 
 ## How to use
-Copy the code into your project.
+The library id for this project is: 
+```
+1xrEKwx-IPIUccpVeUXA1fy7anoRzfGgqfWIv2aPtVyHbcUOUjeKUnzW2
+```
 
 #### Write to the log
 ```javascript
