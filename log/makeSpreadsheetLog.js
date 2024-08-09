@@ -13,7 +13,11 @@ class SpreadsheetLog_{
     /** @private */
     this.logSheet = logSheet
     /** @private */
-    this.lockManager = getLockManager_()
+    this.processPendingMessageFnName = processPendingMessagesFnName
+    /** @private */
+    this.userProvidedLock = userProvidedLock
+    /** private */
+    this.uniqueId = SpreadsheetLog_.createUniqueId(logSheet)
   }
 
   /** 
@@ -55,7 +59,8 @@ class SpreadsheetLog_{
     if(!SpreadsheetLog_.messagesAreValid(messages)) {
       return console.warn(`Messages are invalid. Messages must be an array of string tuples: [string, string][].\n Please correct your messages:\n${JSON.stringify(messages)}`)
     }
-    this.lockManager.handleScriptLock( 
+    SpreadsheetLog_.lockManager.handleUserProvidedLock(
+      this.userProvidedLock,
       () => this.appendToLog(messages), 
       () => this.addToPendingMessageQueue(messages),
     )
@@ -88,9 +93,11 @@ class SpreadsheetLog_{
    * @param {LogMessage[]} messages 
    */
   addToPendingMessageQueue(messages){
-    console.log('Saving messages to pending message queue')
-    SpreadsheetLog_.pendingMessageQueue.addMessages(messages)
-    SpreadsheetLog_.scheduler.scheduleJob({jobName:`${SpreadsheetLog_.name}.${SpreadsheetLog_.appendPendingMessages.name}`, minutesFromNow:1})
+    SpreadsheetLog_.lockManager.handleUserLock( () => {
+      console.log('Saving messages to pending message queue')
+      SpreadsheetLog_.pendingMessageQueue.addMessages(messages, this.uniqueId)
+      SpreadsheetLog_.scheduler.scheduleJob({jobName:this.processPendingMessageFnName, minutesFromNow:1})
+    })
   }
 
   /**
@@ -108,24 +115,27 @@ class SpreadsheetLog_{
   }
 
   /**
+   * @private
+   */
+  static get lockManager(){
+    return getLockManager_()
+  }
+
+  /**
    * Appends messages from the pending message onto the spreadsheet log saved in the properties service of this script.
    * @param {object} e Clock trigger event object
    * @param {string} e.triggerUid The unique id for the trigger
    */
-  static appendPendingMessages({triggerUid}){
+  static appendPendingMessages({triggerUid}, logSheet, userProvidedLock, processPendingMessages){
     SpreadsheetLog_.scheduler.deleteScheduledJob(triggerUid)
-    SpreadsheetLog_.getRegisteredLog().append(SpreadsheetLog_.pendingMessageQueue.getMessagesOut())
+    SpreadsheetLog_.makeLog(logSheet, userProvidedLock, processPendingMessages)
+      .append(SpreadsheetLog_.getPendingMessages(logSheet))
   }
 
-  /**
-   * @private
-   */
-  static getRegisteredLog(){
-    /** @type {Settings} */
-    const props = PropertiesService.getScriptProperties().getProperties()
-    const logSheet =  SpreadsheetApp.openById(props.spreadsheetId)
-      .getSheets()
-      .filter(sheet => sheet.getSheetId() == props.sheetId)[0] // use loose equality so you get a match when the sheetId is 0.
-    return new SpreadsheetLog_(logSheet)
+  /** @param {SpreadsheetApp.Sheet} forLogSheet */
+  static getPendingMessages(forLogSheet){
+    return SpreadsheetLog_.lockManager.handleUserLock(() => {
+      return SpreadsheetLog_.pendingMessageQueue.getMessagesOut(SpreadsheetLog_.createUniqueId(forLogSheet))
+    })
   }
 }
