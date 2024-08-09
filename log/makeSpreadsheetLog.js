@@ -8,8 +8,10 @@ class SpreadsheetLog_{
   /** 
    * @private 
    * @param {SpreadsheetApp.Sheet} logSheet
+   * @param {LockService.Lock} userProvidedLock
+   * @param {string} processPendingMessagesFnName
    */
-  constructor(logSheet){
+  constructor(logSheet, userProvidedLock, processPendingMessagesFnName){
     /** @private */
     this.logSheet = logSheet
     /** @private */
@@ -33,14 +35,12 @@ class SpreadsheetLog_{
   /** 
    * @private
    * @param {SpreadsheetApp.Sheet} logSheet
+   * @param {LockService.Lock} userProvidedLock
+   * @param {string} processPendingMessagesFnName
+   * @return {Log}
    */
-  static registerLogSheet(logSheet){
-    /** @type {Settings} */
-    const settings = {
-      sheetId:logSheet.getSheetId(),
-      spreadsheetId:logSheet.getParent().getId()
-    }
-    PropertiesService.getScriptProperties().setProperties(settings)
+  static makeLog(logSheet, userProvidedLock, processPendingMessagesFnName){
+    return new SpreadsheetLog_(logSheet, userProvidedLock, processPendingMessagesFnName)
   }
 
   /** 

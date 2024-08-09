@@ -25,7 +25,9 @@ function write(message){
 /** 
  * Call this after writing some messages
  * @param {SpreadsheetApp.Sheet} logSheet The first column of the log sheet should be for timestamps, the second column is for a message. The written timestamps and messages will be appended to the end of the sheet. 
+ * @param {LockService.Lock} userProvidedLock
+ * @param {string} processPendingMessages The name of the function that will be responsible for appending pending messages to the log. The function should call this method inside it's body.
  */
-function commitToLog(logSheet){
-  SpreadsheetLog_.makeSpreadsheetLog(logSheet).append(stagingArea.getMessagesOut())
+function writePendingMessagesToLog(e, logSheet, userProvidedLock, processPendingMessages){
+  SpreadsheetLog_.appendPendingMessages(e, logSheet, userProvidedLock, processPendingMessages)
 }
