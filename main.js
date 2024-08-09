@@ -40,18 +40,6 @@ function write(message){
  * 
  * #### Commit to the log (3 steps)
  * ``` 
-<<<<<<< HEAD
- * // 1) define the log sheet
- * const logSheet = SpreadsheetApp.openById(YOUR-SPREADSHEET-ID).getSheetByName(YOUR-LOG-SHEET-NAME)
- * 
- * // 2) define a function to write pending messages to the log on a clock trigger
- * function writePendingMessages(e){
- *    SpreadsheetLogger.writePendingMessagesToLog(e, logSheet, LockService.getScriptLock(), writePendingMessages.name)
- * }
- * 
- * // 3) call commit to actually append the messages to the log
- * logger.commitToLog(logSheet, LockService.getScriptLock(), writePendingMessages.name) 
-=======
  * // 1) define the log sheet and lock
  * const log = SpreadsheetApp.openById(YOUR-SPREADSHEET-ID).getSheetByName(YOUR-LOG-SHEET-NAME)
  * const lock = LockService.getScriptLock()
@@ -63,7 +51,6 @@ function write(message){
  * 
  * // 3) call commit to actually append the messages to the log
  * logger.commitToLog(log, lock, logPendingMessages.name) 
->>>>>>> c696e3e (add example code back to jsdoc descriptions)
  * ``` 
  * 
  * @param {SpreadsheetApp.Sheet} logSheet The first column of the log sheet should be for timestamps, the second column is for a message. The written timestamps and messages will be appended to the end of the sheet. 
@@ -82,18 +69,6 @@ function commitToLog(logSheet, userProvidedLock, processPendingMessages){
  * 
  * #### Commit to the log (3 steps)
  * ``` 
-<<<<<<< HEAD
- * // 1) define the log sheet
- * const logSheet = SpreadsheetApp.openById(YOUR-SPREADSHEET-ID).getSheetByName(YOUR-LOG-SHEET-NAME)
- * 
- * // 2) define a function to write pending messages to the log on a clock trigger
- * function writePendingMessages(e){
- *    SpreadsheetLogger.writePendingMessagesToLog(e, logSheet, LockService.getScriptLock(), writePendingMessages.name)
- * }
- * 
- * // 3) call commit to actually append the messages to the log
- * logger.commitToLog(logSheet, LockService.getScriptLock(), writePendingMessages.name) 
-=======
  * // 1) define the log sheet and lock
  * const log = SpreadsheetApp.openById(YOUR-SPREADSHEET-ID).getSheetByName(YOUR-LOG-SHEET-NAME)
  * const lock = LockService.getScriptLock()
@@ -105,7 +80,6 @@ function commitToLog(logSheet, userProvidedLock, processPendingMessages){
  * 
  * // 3) call commit to actually append the messages to the log
  * logger.commitToLog(log, lock, logPendingMessages.name) 
->>>>>>> c696e3e (add example code back to jsdoc descriptions)
  * ``` 
  * 
  * @param {object} e Clock trigger event object
