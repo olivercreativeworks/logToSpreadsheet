@@ -97,7 +97,7 @@ function write(message){
  */
 function commitToLog(logSheet, userProvidedLock, processPendingMessages){
   SpreadsheetLog_.makeLog(logSheet, userProvidedLock, processPendingMessages)
-    .append(stagingArea.getMessagesOut())
+    .append([[new Date().toDateString(), stagingArea.getMessagesOut().map(m => m.join(': ')).join('\n')]])
 }
 
 /**
