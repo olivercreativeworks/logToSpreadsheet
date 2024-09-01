@@ -40,7 +40,9 @@ class SpreadsheetLog_{
   }
 
   /** 
-   * Uses a script lock to write messages to the spreadsheet log. If the lock times out, messages will be added to the pending message queue instead. 
+   * Uses a script lock to write messages to the spreadsheet log. If the lock times out, messages will be added to the pending message queue instead.
+   * 
+   * **Please note that this method uses Spreadsheet.flush to commit changes to the spreadsheet.** This means that any pending Spreadsheet changes in your source script, will also be commited when this method is called. 
    * 
    * **Uses a script lock to manage concurrent writes**
    * @param {LogMessage[]} messages
