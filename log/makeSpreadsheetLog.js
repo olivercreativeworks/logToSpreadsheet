@@ -34,7 +34,6 @@ class SpreadsheetLog_{
    * @param {SpreadsheetApp.Sheet} logSheet
    * @param {LockService.Lock} userProvidedLock
    * @param {string} processPendingMessagesFnName
-   * @return {Log}
    */
   static makeLog(logSheet, userProvidedLock, processPendingMessagesFnName){
     return new SpreadsheetLog_(logSheet, userProvidedLock, processPendingMessagesFnName)
