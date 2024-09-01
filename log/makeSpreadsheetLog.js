@@ -43,7 +43,7 @@ class SpreadsheetLog_{
    * Uses a script lock to write messages to the spreadsheet log. If the lock times out, messages will be added to the pending message queue instead. 
    * 
    * **Uses a script lock to manage concurrent writes**
-   * @param {LogMessage[]} 
+   * @param {LogMessage[]} messages
    */
   append(messages){
     if(!SpreadsheetLog_.messagesAreValid(messages)) {
