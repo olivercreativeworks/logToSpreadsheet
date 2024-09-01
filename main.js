@@ -89,6 +89,8 @@ function write(message){
  * 
  * This method will write as many pending messages as possible to the log and set up a trigger to write additional messages if need be.
  * 
+ * **Please note that this method uses Spreadsheet.flush to commit changes to the spreadsheet.** This means that any pending Spreadsheet changes in your source script, will be applied when this method is called. 
+ * 
  * @param {SpreadsheetApp.Sheet} logSheet The first column of the log sheet should be for timestamps, the second column is for a message. The written timestamps and messages will be appended to the end of the sheet. 
  * @param {LockService.Lock} userProvidedLock
  * @param {string} processPendingMessages The name of the function that will be responsible for appending pending messages to the log. See the documentation method for more details.
