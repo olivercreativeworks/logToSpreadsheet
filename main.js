@@ -66,7 +66,9 @@ function documentation(){
 }
 
 /** 
- * You can write any number of messages to the log before calling commit.
+ * You can write any number of messages to the log before calling commit. Non-string messages will be converted to JSON strings.
+ * 
+ * Note: When used as a library, Errors will not be logged properly. Best that you write error.stack instead of passing the error through.
  * 
  * #### Write to the log
  * ```
@@ -76,7 +78,7 @@ function documentation(){
  * logger.write('It is a good day!')
  * logger.write('Bye bye!')
  * ``` 
- * @param {string} message 
+ * @param {string | number | Array<unknown> | Record<unknown, unknown> | Error} message 
  */
 function write(message){
   stagingArea.stageMessage(message)
